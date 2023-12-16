@@ -1,8 +1,0 @@
-jupyter:
-  image: jupyter/datascience-notebook:latest
-  container_name: jupyter
-  ports:
-    - JUPYTER_PORT:8888
-  environment:
-    JUPYTER_ENABLE_LAB: "yes"
-    JUPYTER_TOKEN: "ACCESS_TOKEN"
