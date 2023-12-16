@@ -34,4 +34,6 @@ override.tf.json
 terraform.rc
 
 *.hcl
+hetzner-docker/hetzhub
+hetzner-docker/hetzhub.pub
 hetzner-docker/provider.tf
