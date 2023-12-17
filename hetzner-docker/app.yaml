@@ -3,11 +3,28 @@ services:
   jupyter:
     image: jupyter/datascience-notebook:latest
     container_name: jupyter
-    ports:
-      - '${JUPYTER_PORT}:8888'
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
       JUPYTER_TOKEN: '${ACCESS_TOKEN}'
     volumes:
       - '/hetzhub/apps/jupyterlabs:/home/jovyan/work'
     restart: always
+    ports:
+      - 127.0.0.1:8888:8888
+    networks:
+      - nginxnetwork
+  nginx:
+    image: nginx
+    container_name: nginx_container
+    ports:
+      - 443:443     # HTTPS
+    volumes:
+      - ${NGINX_CONF_PATH}:/etc/nginx/nginx.conf
+      - ${NGINX_CERT_PATH}:/etc/nginx/cert.pem
+      - ${NGINX_KEY_PATH}:/etc/nginx/key.pem
+    restart: always
+    networks:
+      - nginxnetwork
+
+networks:
+  nginxnetwork:
