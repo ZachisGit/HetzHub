@@ -6,6 +6,7 @@ services:
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
       JUPYTER_TOKEN: '${ACCESS_TOKEN}'
+    user: root
     volumes:
       - '/hetzhub/apps/jupyterlabs:/home/jovyan/work'
     restart: always

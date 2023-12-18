@@ -1,5 +1,3 @@
-
-
 resource "hcloud_ssh_key" "hetzhub_key" {
   name       = "HetzHub SSH keys"
   public_key = file("${var.public_key_path}")
@@ -147,5 +145,5 @@ output "access_token" {
 }
 
 output "endpoint" {
-    value = "http://${hcloud_server.node.ipv4_address}:${var.jupyter_port}"
+    value = "https://${hcloud_server.node.ipv4_address}:443"
 }
