@@ -1,5 +1,3 @@
-
-
 resource "hcloud_ssh_key" "hetzhub_key" {
   name       = "HetzHub SSH keys"
   public_key = file("${var.public_key_path}")
@@ -44,8 +42,18 @@ resource "null_resource" "jupyterlab_setup" {
 
     provisioner "remote-exec" {
         inline = [
-            "mkdir -p ${var.app_dir}/jupyterlab ",
-            "export ACCESS_TOKEN=\"${data.template_file.access_token.rendered}\"; export JUPYTER_PORT=${var.jupyter_port}; echo \"${file(var.compose_file_path)}\" > ${var.app_dir}/jupyterlab/app.yaml",
+            "mkdir -p ${var.app_dir}/jupyterlab",
+            "export NGINX_CONF_PATH='${var.app_dir}/jupyterlab/nginx.conf'; export NGINX_CERT_PATH='${var.app_dir}/jupyterlab/cert.pem'; export NGINX_KEY_PATH='${var.app_dir}/jupyterlab/key.pem'; export ACCESS_TOKEN=\"${data.template_file.access_token.rendered}\"; export JUPYTER_PORT=${var.jupyter_port}; echo \"${file(var.compose_file_path)}\" > ${var.app_dir}/jupyterlab/app.yaml",
+
+            # Create IP ssl certificate
+            "export NGINX_SERVER_NAME=${hcloud_server.node.ipv4_address}; echo \"${file("nginx.conf")}\" > ${var.app_dir}/jupyterlab/nginx.conf",
+
+            "wget https://raw.githubusercontent.com/antelle/generate-ip-cert/master/generate-ip-cert.sh -O ${var.app_dir}/jupyterlab/generate-ip-cert.sh",
+            "chmod +x ${var.app_dir}/jupyterlab/generate-ip-cert.sh",
+            "cd ${var.app_dir}/jupyterlab/",
+            "${var.app_dir}/jupyterlab/generate-ip-cert.sh ${hcloud_server.node.ipv4_address}",
+
+            # Run compose-up
             "/hetzhub/docker-compose -f ${var.app_dir}/jupyterlab/app.yaml up -d",
         ]
 
@@ -127,10 +135,15 @@ variable "app_dir" {
     default = "/hetzhub/apps"  
 }
 
+variable "app_scripts" {
+    type    = string
+    default = "/hetzhub/scripts"  
+}
+
 output "access_token" {
     value = data.template_file.access_token
 }
 
 output "endpoint" {
-    value = "http://${hcloud_server.node.ipv4_address}:${var.jupyter_port}"
+    value = "https://${hcloud_server.node.ipv4_address}:443"
 }
