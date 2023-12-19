@@ -53,7 +53,10 @@ resource "null_resource" "jupyterlab_setup" {
             "cd ${var.app_dir}/jupyterlab/",
             "${var.app_dir}/jupyterlab/generate-ip-cert.sh ${hcloud_server.node.ipv4_address}",
 
-            # Run compose-up
+            # Set permissions and run compose-up
+            "mkdir -p ${var.app_dir}/jupyterlab/data",
+            "chown -R 1000:100 /hetzhub/apps/jupyterlab/data",
+            "chmod -R 775 /hetzhub/apps/jupyterlab/data",
             "/hetzhub/docker-compose -f ${var.app_dir}/jupyterlab/app.yaml up -d",
         ]
 
@@ -135,13 +138,12 @@ variable "app_dir" {
     default = "/hetzhub/apps"  
 }
 
-variable "app_scripts" {
-    type    = string
-    default = "/hetzhub/scripts"  
-}
-
 output "access_token" {
     value = data.template_file.access_token
+}
+
+data "template_file" "endpoint" {
+  template = "https://${hcloud_server.node.ipv4_address}:443"
 }
 
 output "endpoint" {

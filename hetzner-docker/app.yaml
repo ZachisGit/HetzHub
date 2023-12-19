@@ -6,9 +6,10 @@ services:
     environment:
       JUPYTER_ENABLE_LAB: 'yes'
       JUPYTER_TOKEN: '${ACCESS_TOKEN}'
-    user: root
+      GRANT_SUDO: 'yes'
+    user: 'root'
     volumes:
-      - '/hetzhub/apps/jupyterlabs:/home/jovyan/work'
+      - '/hetzhub/apps/jupyterlab/data:/home/jovyan'
     restart: always
     ports:
       - 127.0.0.1:8888:8888
