@@ -1,5 +1,5 @@
 module "jupyterlab-service" {
-  source = "./module"
+  source = "../services/jupyterlab"
 
   instance_type  = "cx11"
   private_key_path = "./hetzhub"
