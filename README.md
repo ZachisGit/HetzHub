@@ -23,6 +23,8 @@ HetzHub is an orchestration project for Hetzner Cloud infrastructure. It automat
 ## Currently Implemented Services
 
 - **JupyterLab**: HTTPS encrypted service
+- (next up in the works) **S3-Storage**: HTTPS encrypted storage service with webui, persisted on three different physical locations via [Hetzner Volumes](https://docs.hetzner.com/de/cloud/volumes/overview)
+
 
 
 ## Contribution
