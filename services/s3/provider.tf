@@ -6,12 +6,3 @@ terraform {
     }
   }
 }
-
-variable provider_token {
-  type = string
-  default = "my-token"
-}
-
-provider "hcloud" {
-  token = "my-token"
-}

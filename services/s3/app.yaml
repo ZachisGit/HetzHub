@@ -1,0 +1,20 @@
+version: '3'
+services:
+  s3-minio:
+    image: minio/minio:latest
+    container_name: s3-minio
+    restart: unless-stopped
+    volumes:
+      - ${VOLUME_PATH}:/data
+      - ${MINIO_CONFIG_FILE_PATH}:/etc/config.env
+      - /etc/letsencrypt/archive/${MINIO_SERVER_URL}/privkey1.pem:/root/.minio/certs/private.key
+      - /etc/letsencrypt/archive/${MINIO_SERVER_URL}/fullchain1.pem:/root/.minio/certs/public.crt
+    environment:
+      MINIO_VOLUMES: \"/data\"
+      MINIO_SERVER_URL: \"https://${MINIO_SERVER_URL}:9000/\"
+      MINIO_BROWSER_REDIRECT_URL: \"https://${MINIO_SERVER_URL}/\"
+      MINIO_CONFIG_ENV_FILE: \"/etc/config.env\"
+    ports:
+      - 9000:9000
+      - 443:443
+    command: server --console-address \":443\" --address \":9000\" /data
