@@ -7,6 +7,11 @@ terraform {
   }
 }
 
+variable provider_token {
+  type = string
+  default = "my-token"
+}
+
 provider "hcloud" {
-  token = "pwOlAq72jQQ03ixm02QQpmj62H2Kx2aYpKEbjOdVtll28uAyIFpytobSzfW4P8pM"
+  token = "my-token"
 }

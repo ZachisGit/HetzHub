@@ -15,4 +15,5 @@ module "s3-service" {
   public_key_path = "./hetzhub.pub"
   volume_size = 10
   enable_backups = false
+  provider_token = var.provider_token
 }

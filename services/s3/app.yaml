@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 services:
   s3-minio:
     image: minio/minio:latest
@@ -7,30 +7,14 @@ services:
     volumes:
       - ${VOLUME_PATH}:/data
       - ${MINIO_CONFIG_FILE_PATH}:/etc/config.env
+      - /etc/letsencrypt/archive/${MINIO_SERVER_URL}/privkey1.pem:/root/.minio/certs/private.key
+      - /etc/letsencrypt/archive/${MINIO_SERVER_URL}/fullchain1.pem:/root/.minio/certs/public.crt
     environment:
       MINIO_VOLUMES: \"/data\"
-      MINIO_SERVER_URL: \"https://${MINIO_SERVER_URL}:4443/\"
-      MINIO_BROWSER_REDIRECT_URL: \"https://${MINIO_SERVER_URL}:443/minio/ui/\"
+      MINIO_SERVER_URL: \"https://${MINIO_SERVER_URL}:9000/\"
+      MINIO_BROWSER_REDIRECT_URL: \"https://${MINIO_SERVER_URL}/\"
       MINIO_CONFIG_ENV_FILE: \"/etc/config.env\"
     ports:
-      - 127.0.0.1:9000:9000
-      - 127.0.0.1:9090:9090
-    networks:
-      - nginxnetwork
-    command: server --console-address \":9090\" --address \":9000\" /data
-  nginx:
-    image: nginx
-    container_name: nginx_container
-    ports:
-      - 443:443           # HTTPS
-      - 127.0.0.1:80:80   # HTTP
-    volumes:
-      - ${NGINX_CONF_PATH}:/etc/nginx/nginx.conf
-      - ${NGINX_CERT_PATH}:/etc/nginx/cert.pem
-      - ${NGINX_KEY_PATH}:/etc/nginx/key.pem
-    restart: always
-    networks:
-      - nginxnetwork
-
-networks:
-  nginxnetwork:
+      - 9000:9000
+      - 443:443
+    command: server --console-address \":443\" --address \":9000\" /data

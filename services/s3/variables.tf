@@ -82,3 +82,7 @@ variable "enable_backups" {
     type    = bool
     default = false
 }
+
+variable "provider_token" {
+    type = string
+}

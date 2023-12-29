@@ -38,14 +38,17 @@ resource "terraform_data" "server" {
         inline = [
             # Standard setup of node with docker-compose
             "sudo apt-get update",
-            "sudo apt-get install -y docker.io",
+            "sudo apt-get install -y docker.io jq",
             "mkdir -p /hetzhub",
             "mkdir -p ${var.app_dir}",
+
+            "curl -H 'Authorization: Bearer ${var.provider_token}' 'https://api.hetzner.cloud/v1/servers/${hcloud_server.node.id}' | jq -r '.server.public_net.ipv4.dns_ptr' > /hetzhub/hostname",
+
             "wget https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -O /hetzhub/docker-compose",
             "chmod +x /hetzhub/docker-compose",
             "mkdir -p ${var.app_dir}/s3",
-            "export MINIO_SERVER_URL='${hcloud_server.node.ipv4_address}'; export VOLUME_PATH='/mnt/HC_Volume_${hcloud_volume.volume.id}'; export MINIO_CONFIG_FILE_PATH='${var.app_dir}/s3/config.env'; export NGINX_CONF_PATH='${var.app_dir}/s3/nginx.conf'; export NGINX_CERT_PATH='${var.app_dir}/s3/cert.pem'; export NGINX_KEY_PATH='${var.app_dir}/s3/key.pem'; echo \"${file(var.compose_file_path)}\" > ${var.app_dir}/s3/app.yaml",
-            "export NGINX_SERVER_NAME='${hcloud_server.node.ipv4_address}'; echo \"${file("${var.nginx_conf_file_path}")}\" > ${var.app_dir}/s3/nginx.conf",
+            "export MINIO_SERVER_URL=$(cat /hetzhub/hostname); export VOLUME_PATH='/mnt/HC_Volume_${hcloud_volume.volume.id}'; export MINIO_CONFIG_FILE_PATH='${var.app_dir}/s3/config.env'; echo \"${file(var.compose_file_path)}\" > ${var.app_dir}/s3/app.yaml",
+            #"export NGINX_SERVER_NAME='${hcloud_server.node.ipv4_address}'; echo \"${file("${var.nginx_conf_file_path}")}\" > ${var.app_dir}/s3/nginx.conf",
             "echo 'MINIO_ROOT_USER=\"${var.access_key}\"\nMINIO_ROOT_PASSWORD=\"${data.template_file.secret_key.rendered}\"' > ${var.app_dir}/s3/config.env",
 
             # Mount Hetzner cloud volume
@@ -55,10 +58,9 @@ resource "terraform_data" "server" {
             "echo '/dev/disk/by-id/scsi-0HC_Volume_${hcloud_volume.volume.id} /mnt/HC_Volume_${hcloud_volume.volume.id} xfs discard,nofail,defaults 0 0' >> /etc/fstab",
 
             # Create IP ssl certificate
-            "wget https://raw.githubusercontent.com/antelle/generate-ip-cert/master/generate-ip-cert.sh -O ${var.app_dir}/s3/generate-ip-cert.sh",
-            "chmod +x ${var.app_dir}/s3/generate-ip-cert.sh",
-            "cd ${var.app_dir}/s3/",
-            "${var.app_dir}/s3/generate-ip-cert.sh ${hcloud_server.node.ipv4_address}",
+            "mkdir -p /var/lib/letsencrypt",
+            "mkdir -p /etc/letsencrypt",
+            "docker run -p 80:80 --rm --name certbot -v '/etc/letsencrypt:/etc/letsencrypt' -v '/var/lib/letsencrypt:/var/lib/letsencrypt' certbot/certbot certonly --standalone --preferred-challenges http -d $(cat /hetzhub/hostname) --non-interactive --agree-tos -m $(echo MINIO_SERVER_NAME)@hetzhub.com",
 
             # Run compose-up
             "/hetzhub/docker-compose -f ${var.app_dir}/s3/app.yaml up -d",
@@ -70,12 +72,6 @@ resource "terraform_data" "server" {
     }
 }
 
-/*
-docker run -v $PWD/certs:/certs \
-  -e SSL_SUBJECT=$DOMAIN \
-  -e SSL_DNS=$DOMAIN \
-  superseb/omgwtfssl
-*/
 
 
 // create random s3 secret key and hold in variable
