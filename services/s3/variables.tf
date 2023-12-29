@@ -1,34 +1,52 @@
 // ----------- VARIABLES -------------
-
-variable "instance_count" {
-    type    = number
-    default = 1
-}
-
 variable "compose_file_path" {
     type    = string
-    default = "../services/jupyterlab/app.yaml"
+    default = "../services/s3/app.yaml"
 }
 
 variable "nginx_conf_file_path" {
     type    = string
-    default = "../services/jupyterlab/nginx.conf"
+    default = "../services/s3/nginx.conf"
+}
+
+variable "minio_conf_file_path" {
+    type    = string
+    default = "../services/s3/config.env"
 }
 
 variable "app_name" {
     type    = string
-    default = "jupyterlab"
+    default = "s3"
 }
 
+variable "access_key" {
+    type    = string
+    default = "admin"
+}
 
-variable "jupyter_port" {
+variable "s3_port" {
     type    = number
-    default = 8888
+    default = 9000
 }
 
-variable "user_name" {
+variable "webui_port" {
+    type    = number
+    default = 443
+}
+
+variable "ssh_user_name" {
     type    = string
     default = "root"
+}
+
+variable "volume_size" {
+    type    = number
+    default = 10
+}
+
+variable "delete_protection" {
+    type    = bool
+    default = false
 }
 
 variable "private_key_path" {
@@ -46,7 +64,7 @@ variable "image" {
 
 variable "instance_type" {
     type    = string
-    default = "cx11"
+    default = "CPX11"
 }
 
 variable "region" {

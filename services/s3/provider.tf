@@ -6,7 +6,3 @@ terraform {
     }
   }
 }
-
-provider "hcloud" {
-  token = "pwOlAq72jQQ03ixm02QQpmj62H2Kx2aYpKEbjOdVtll28uAyIFpytobSzfW4P8pM"
-}
