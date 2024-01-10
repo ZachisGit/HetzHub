@@ -40,3 +40,4 @@ hetzner-docker/provider.tf
 .DS_Store
 cbb/
 hetzner-docker/provider.tf
+*.pyc

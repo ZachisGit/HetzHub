@@ -16,7 +16,6 @@ variable "minio_conf_file_path" {
 
 variable "app_name" {
     type    = string
-    default = "s3"
 }
 
 variable "access_key" {
@@ -53,10 +52,6 @@ variable "private_key_path" {
     type    = string
 }
 
-variable "public_key_path" {
-    type    = string
-}
-
 variable "image" {
     type    = string
     default = "ubuntu-22.04"
@@ -84,5 +79,9 @@ variable "enable_backups" {
 }
 
 variable "provider_token" {
+    type = string
+}
+
+variable "hcloud_key_id" {
     type = string
 }
