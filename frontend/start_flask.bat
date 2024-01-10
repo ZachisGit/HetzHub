@@ -1,0 +1,1 @@
+py -m uvicorn "app:app" --interface=wsgi --workers 1 --host=0.0.0.0 --port 80

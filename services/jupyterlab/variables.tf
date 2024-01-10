@@ -1,5 +1,4 @@
 // ----------- VARIABLES -------------
-
 variable "instance_count" {
     type    = number
     default = 1
@@ -17,25 +16,19 @@ variable "nginx_conf_file_path" {
 
 variable "app_name" {
     type    = string
-    default = "jupyterlab"
 }
-
 
 variable "jupyter_port" {
     type    = number
     default = 8888
 }
 
-variable "user_name" {
+variable "ssh_user_name" {
     type    = string
     default = "root"
 }
 
 variable "private_key_path" {
-    type    = string
-}
-
-variable "public_key_path" {
     type    = string
 }
 
@@ -63,4 +56,12 @@ variable "app_dir" {
 variable "enable_backups" {
     type    = bool
     default = false
+}
+
+variable "provider_token" {
+    type    = string
+}
+
+variable "hcloud_key_id" {
+    type = string
 }
