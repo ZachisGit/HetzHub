@@ -1,0 +1,48 @@
+body {
+    color: #141414;
+    margin: 0 auto;    
+    font-family: Montserrat,sans-serif;
+    font-weight: 500;
+}
+
+.file-drop-message {
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+.hetzhub-title {
+    color: #ededed;
+    font-family: Montserrat,sans-serif;
+    font-weight: 700;
+}
+
+.file-drop-area {
+    max-width: 400px; /* Adjust width as needed */
+    height: 150px; /* Adjust height as needed */
+    border: 2px dashed rgb(213 12 45 / 100%); /* Dashed border */
+    border-radius: 10px; /* Rounded corners */
+    margin: auto; /* Center in the middle */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.file-drop-area.active {
+    animation: pulse 1s infinite;
+}
+
+.file-drop-area.active:hover {
+    animation: pulse 1s 1;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(213 12 45 / 70%);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgb(213 12 45 / 0%);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgb(213 12 45 / 0%);
+    }
+}

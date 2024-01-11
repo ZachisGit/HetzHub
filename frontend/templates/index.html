@@ -8,37 +8,34 @@
     <!-- Include Bootstrap CSS (Dark Mode) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-dark text-white">
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-2 bg-secondary vh-100">
-                <h2 class="text-white mt-3">Services</h2>
-                <ul class="nav flex-column">
-                    <script type="text/javascript">
-                    </script>
-                    {% for service in services %}
-                    <li class="nav-item service">
-                        <a class="nav-link text-white" href="#" onclick="on_active_service_change({{ loop.index-1 }})">{{ service }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
+<body class="bg-dark text-white text-center">
+    <div class="container-fluid text-center">
+        <div class="row justify-content-center align-items-center h-100">
+            <!-- Logo and Tutorial GIF -->
+            <div class="col-12 text-center mb-4 mt-4">
+                <h1 class="hetzhub-title">HetzHub</h1>
+                <div>
+                    <img src="/static/tutorial.gif" alt="Hetzner API Token Tutorial" class="img-fluid mt-4">
+                </div>
             </div>
 
-            <!-- Main Content -->
-            <div class="col-md-10">
-                <h1 class="mt-3">Service Configuration</h1>
-                <form id="configForm" action="/apply-config" method="post" class="form-group">
-                    <div class="form-content"></div>
-                    <button type="submit" class="btn btn-light mt-3">Apply</button>
+            <!-- File Drop Field -->
+            <div class="col-12">
+                <form id="fileDropForm" action="/services" method="post" class="form-group text-center" enctype="multipart/form-data">
+                    <div class="file-drop-area text-white border border-light rounded p-5 text-center">
+                        <span class="file-drop-message  mt-3">Drop your tfstate file here or click to upload</span>
+                        <input type="file" class="file-input" style="height: 0px;" name="tfstateFile" hidden>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+    
 
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/main.js"></script>
+    <script src="/static/index.js"></script>
+    <link rel="stylesheet" href="/static/index.css">
 </body>
 </html>

@@ -4,14 +4,17 @@ terraform {
       source  = "hetznercloud/hcloud"
       version = "~> 1.44.1"
     }
+    tls = {
+      source = "hashicorp/tls"
+      version = "4.0.5"
+    }
   }
 }
 
-variable provider_token {
-  type = string
-  default = "my-token"
+data "template_file" "provider_token" {
+  template = module.global_config.provider_token
 }
 
 provider "hcloud" {
-  token = "my-token"
+  token = module.global_config.provider_token
 }

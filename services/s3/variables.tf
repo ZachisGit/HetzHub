@@ -14,15 +14,6 @@ variable "minio_conf_file_path" {
     default = "../services/s3/config.env"
 }
 
-variable "app_name" {
-    type    = string
-}
-
-variable "access_key" {
-    type    = string
-    default = "admin"
-}
-
 variable "s3_port" {
     type    = number
     default = 9000
@@ -33,49 +24,14 @@ variable "webui_port" {
     default = 443
 }
 
-variable "ssh_user_name" {
+variable "access_key" {
     type    = string
-    default = "root"
-}
-
-variable "volume_size" {
-    type    = number
-    default = 10
-}
-
-variable "delete_protection" {
-    type    = bool
-    default = false
-}
-
-variable "private_key_path" {
-    type    = string
-}
-
-variable "image" {
-    type    = string
-    default = "ubuntu-22.04"
-}
-
-variable "instance_type" {
-    type    = string
-    default = "CPX11"
-}
-
-variable "region" {
-    type    = string
-    description = "nbg1, fsn1, hel1, ash or hil"
-    default = "fsn1"
+    default = "admin"
 }
 
 variable "app_dir" {
     type    = string
     default = "/hetzhub/apps"  
-}
-
-variable "enable_backups" {
-    type    = bool
-    default = false
 }
 
 variable "provider_token" {
@@ -84,4 +40,59 @@ variable "provider_token" {
 
 variable "hcloud_key_id" {
     type = string
+}
+
+variable "zone_id" {
+    type = string
+}
+
+variable "hetzner_dns_auth_token" {
+    type = string
+}
+
+variable "ssh_user_name" {
+    type    = string
+    default = "root"
+}
+
+variable "private_key" {
+    type    = string
+}
+
+variable "public_key" {
+    type    = string
+}
+
+variable "image" {
+    type    = string
+    default = "ubuntu-22.04"
+}
+
+# ----------- OUTPUTS -------------
+
+variable "region" {
+    type    = string
+    description = "nbg1, fsn1, hel1, ash or hil"
+    default = "fsn1"
+}
+
+variable "enable_backups" {
+    type    = bool
+    default = false
+}
+
+variable "instance_type" {
+    type    = string
+}
+
+variable "app_name" {
+    type    = string
+}
+
+variable "volume_size" {
+    type    = number
+}
+
+variable "delete_protection" {
+    type    = bool
 }

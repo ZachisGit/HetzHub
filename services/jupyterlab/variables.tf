@@ -4,6 +4,11 @@ variable "instance_count" {
     default = 1
 }
 
+variable "app_dir" {
+    type    = string
+    default = "/hetzhub/apps"  
+}
+
 variable "compose_file_path" {
     type    = string
     default = "../services/jupyterlab/app.yaml"
@@ -14,7 +19,7 @@ variable "nginx_conf_file_path" {
     default = "../services/jupyterlab/nginx.conf"
 }
 
-variable "app_name" {
+variable "provider_token" {
     type    = string
 }
 
@@ -28,8 +33,16 @@ variable "ssh_user_name" {
     default = "root"
 }
 
-variable "private_key_path" {
+variable "private_key" {
     type    = string
+}
+
+variable "public_key" {
+    type    = string
+}
+
+variable "hcloud_key_id" {
+    type = string
 }
 
 variable "image" {
@@ -37,31 +50,33 @@ variable "image" {
     default = "ubuntu-22.04"
 }
 
-variable "instance_type" {
-    type    = string
-    default = "cx11"
+variable "hetzner_dns_auth_token" {
+    type = string
 }
 
+variable "zone_id" {
+    type = string
+}
+
+# ----------------- USER VARIABLES -----------------
 variable "region" {
     type    = string
     description = "nbg1, fsn1, hel1, ash or hil"
     default = "fsn1"
 }
 
-variable "app_dir" {
+variable "app_name" {
     type    = string
-    default = "/hetzhub/apps"  
+}
+
+variable "instance_type" {
+    type    = string
 }
 
 variable "enable_backups" {
     type    = bool
-    default = false
 }
 
-variable "provider_token" {
-    type    = string
-}
-
-variable "hcloud_key_id" {
-    type = string
+variable "delete_protection" {
+    type    = bool
 }

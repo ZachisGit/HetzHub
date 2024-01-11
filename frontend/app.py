@@ -40,6 +40,10 @@ configs = {
 def index():
     return render_template('index.html', services=configs.keys())
 
+@app.route('/services')
+def services():
+    return render_template('services.html')
+
 @app.route('/get-config/<service>')
 def get_config(service):
     return jsonify(configs.get(service, {}))
