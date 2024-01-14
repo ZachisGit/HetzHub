@@ -1,0 +1,51 @@
+body {
+    background-color: #141414;
+    font-family: Montserrat,sans-serif;
+    font-weight: 500;
+}
+
+.main-window {
+    height: 100vh;
+    display: flex;
+    background-color: #ededed;
+}
+
+.sidebar {
+    background-color: #262626;
+}
+
+
+.content {
+    flex-grow: 1;
+    padding-top: 48px;
+    padding-left: 64px;
+}
+
+@media (max-width: 768px) {
+    .main-window {
+        flex-direction: column;
+    }
+}
+
+.navbar {
+    color: #ededed;
+    background-color: #141414;
+}
+
+.large-select {
+    width: 256px;
+    height: 50px; /* Large height */
+    padding: 10px; /* Spacious padding */
+    font-size: 20px; /* Large font size */
+    border: 2px solid #ccc; /* Visible border */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.medium-select {
+    width: 256px;
+    height: 42px; /* Large height */
+    padding: 10px; /* Spacious padding */
+    font-size: 16px; /* Large font size */
+    border: 2px solid #ccc; /* Visible border */
+    border-radius: 3px; /* Rounded corners */
+}

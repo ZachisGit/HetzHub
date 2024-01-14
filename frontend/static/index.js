@@ -43,4 +43,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.files[0])
             fileDropArea_onDrop(e);
     });
+    
+    document.getElementById("api_token").addEventListener('keypress', function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if (!localStorage.getItem('tfstate') || localStorage.getItem('api_token') != $("#api_token")[0].value) {
+                localStorage.setItem('api_token', $("#api_token")[0].value);
+                localStorage.removeItem('tfstate');
+            } 
+            
+            window.location.href = "/services";
+        }
+    });
 });
